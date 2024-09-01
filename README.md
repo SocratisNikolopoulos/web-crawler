@@ -38,11 +38,17 @@ npm start http://example.com
 Replace http://example.com with the URL of the site you want to crawl.
 
 📄 Project Structure
+
 crawl.js: Core logic for crawling and link extraction.
+
 main.js: Entry point for the crawler; manages the crawl process.
+
 report.js: Handles the generation and printing of the crawl report.
+
 crawl.test.js: Unit tests for the crawling logic.
+
 report.test.js: Unit tests for the reporting functionality.
+
 🎯 Future Enhancements
 Concurrency: Implementing parallel requests for faster crawling.
 Depth Limitation: Allowing users to limit the depth of the crawl.
