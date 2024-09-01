@@ -7,7 +7,9 @@ Efficient Crawling: Recursively crawls through web pages, respecting domain boun
 Error Handling: Gracefully handles non-HTML content and various HTTP response statuses, ensuring a smooth crawling process.
 Link Extraction: Extracts both absolute and relative links from HTML pages, transforming them into fully-qualified URLs.
 Detailed Reporting: Generates a report summarizing the frequency of links to each page, providing insights into the site's structure.
+
 🛠️ How It Works
+
 1. Crawling
 The crawlPage function initiates the crawl, starting from the base URL. It normalizes each URL and recursively processes all linked pages within the same domain.
 
@@ -32,6 +34,7 @@ To start crawling a website, simply run:
 bash
 Copy code
 npm start http://example.com
+
 Replace http://example.com with the URL of the site you want to crawl.
 
 📄 Project Structure
