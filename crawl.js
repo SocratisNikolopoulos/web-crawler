@@ -1,9 +1,12 @@
+const { log } = require("console");
 const { JSDOM } = require("jsdom");
 
 async function crawlPage(baseURL, currentURL, pages) {
   const baseURLObj = new URL(baseURL);
   const currentURLObj = new URL(currentURL);
+
   if (baseURLObj.hostname !== currentURLObj.hostname) {
+    console.log(`Skipping URL from a different domain: ${currentURL}`);
     return pages;
   }
 
@@ -25,7 +28,7 @@ async function crawlPage(baseURL, currentURL, pages) {
     }
 
     const contentType = resp.headers.get("content-type");
-    if (!contentType.includes("text/html")) {
+    if (!contentType || !contentType.includes("text/html")) {
       console.log(`Non HTML response, content-type: ${contentType} on page: ${currentURL}`);
       return pages;
     }
@@ -46,11 +49,22 @@ function getURLSFromHTML(htmlBody, baseURL) {
   const dom = new JSDOM(htmlBody);
   const linkElements = dom.window.document.querySelectorAll("a");
   for (const linkElement of linkElements) {
-    try {
-      const urlObj = new URL(linkElement.href, baseURL);
-      urls.push(urlObj.href);
-    } catch (err) {
-      console.log(`error with url: ${err.message}`);
+    if (linkElement.href.startsWith("/")) {
+      //relative URLs
+      try {
+        const urlObj = new URL(linkElement.href, baseURL);
+        urls.push(urlObj.href);
+      } catch (err) {
+        console.log(`Error with relative URL: ${err.message}`);
+      }
+    } else {
+      //absolute URLs
+      try {
+        const urlObj = new URL(linkElement.href);
+        urls.push(urlObj.href);
+      } catch (err) {
+        console.log(`Error with absolute URL: ${err.message}`);
+      }
     }
   }
   return urls;
@@ -58,14 +72,12 @@ function getURLSFromHTML(htmlBody, baseURL) {
 
 function normalizeURL(urlString) {
   const urlObj = new URL(urlString);
-  let normalizedPath = `${urlObj.protocol}//${urlObj.hostname}${urlObj.pathname}`;
-
-  // Remove trailing slash if it's not the root path
-  if (normalizedPath.endsWith("/") && urlObj.pathname.length > 1) {
-    normalizedPath = normalizedPath.slice(0, -1);
+  let hostPath = `${urlObj.hostname}${urlObj.pathname}`;
+  hostPath = hostPath.toLowerCase();
+  if (hostPath.length > 0 && hostPath.slice(-1) === "/") {
+    return hostPath.slice(0, -1);
   }
-
-  return normalizedPath;
+  return hostPath;
 }
 
 module.exports = {

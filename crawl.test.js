@@ -33,15 +33,15 @@ test("getURLSFromHTML absolute", () => {
   const inputHTMLBody = `
     <html>
         <body>
-            <a href="https://triakilakodika.gr">
+            <a href="https://triakilakodika.gr/path/">
             Tria Kila Kodika
             </a>
         </body>    
     </html>        
     `;
-  const inputBaseURL = "https://triakilakodika.gr";
+  const inputBaseURL = "https://triakilakodika.gr/path/";
   const actual = getURLSFromHTML(inputHTMLBody, inputBaseURL);
-  const expected = ["https://triakilakodika.gr/"];
+  const expected = ["https://triakilakodika.gr/path/"];
   expect(actual).toEqual(expected);
 });
 
@@ -50,7 +50,7 @@ test("getURLSFromHTML relative", () => {
       <html>
           <body>
               <a href="/path/">
-              Boot.dev Blog
+              Tria Kila Kodika
               </a>
           </body>    
       </html>        
