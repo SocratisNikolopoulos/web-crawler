@@ -2,30 +2,30 @@ const { normalizeURL, getURLSFromHTML } = require("./crawl.js");
 const { test, expect } = require("@jest/globals");
 
 test("normalizeURL strip protocol", () => {
-  const input = "https://blog.boot.dev/path";
+  const input = "https://triakilakodika.gr/path";
   const actual = normalizeURL(input);
-  const expected = "blog.boot.dev/path";
+  const expected = "triakilakodika.gr/path";
   expect(actual).toEqual(expected);
 });
 
 test("normalizeURL strip trailing slash", () => {
-  const input = "https://blog.boot.dev/path/";
+  const input = "https://triakilakodika.gr/path/";
   const actual = normalizeURL(input);
-  const expected = "blog.boot.dev/path";
+  const expected = "triakilakodika.gr/path";
   expect(actual).toEqual(expected);
 });
 
 test("normalizeURL strip trailing capitals", () => {
-  const input = "https://BLOG.boot.dev/path";
+  const input = "https://TRIAKILAKODIKA.gr/path";
   const actual = normalizeURL(input);
-  const expected = "blog.boot.dev/path";
+  const expected = "triakilakodika.gr/path";
   expect(actual).toEqual(expected);
 });
 
 test("normalizeURL strip http", () => {
-  const input = "https://blog.boot.dev/path";
+  const input = "https://triakilakodika.gr/path";
   const actual = normalizeURL(input);
-  const expected = "blog.boot.dev/path";
+  const expected = "triakilakodika.gr/path";
   expect(actual).toEqual(expected);
 });
 
@@ -33,15 +33,15 @@ test("getURLSFromHTML absolute", () => {
   const inputHTMLBody = `
     <html>
         <body>
-            <a href="https://blog.boot.dev">
-            Boot.dev Blog
+            <a href="https://triakilakodika.gr">
+            Tria Kila Kodika
             </a>
         </body>    
     </html>        
     `;
-  const inputBaseURL = "https://blog.boot.dev";
+  const inputBaseURL = "https://triakilakodika.gr";
   const actual = getURLSFromHTML(inputHTMLBody, inputBaseURL);
-  const expected = ["https://blog.boot.dev/"];
+  const expected = ["https://triakilakodika.gr/"];
   expect(actual).toEqual(expected);
 });
 
@@ -55,9 +55,9 @@ test("getURLSFromHTML relative", () => {
           </body>    
       </html>        
       `;
-  const inputBaseURL = "https://blog.boot.dev";
+  const inputBaseURL = "https://triakilakodika.gr";
   const actual = getURLSFromHTML(inputHTMLBody, inputBaseURL);
-  const expected = ["https://blog.boot.dev/path/"];
+  const expected = ["https://triakilakodika.gr/path/"];
   expect(actual).toEqual(expected);
 });
 
@@ -65,18 +65,18 @@ test("getURLSFromHTML both", () => {
   const inputHTMLBody = `
         <html>
             <body>
-                <a href="https://blog.boot.dev/path1/">
-                Boot.dev Blog Path One
+                <a href="https://triakilakodika.gr/path1/">
+                Tria Kila Kodika Path One
                 </a>
                 <a href="/path2/">
-                Boot.dev Blog Path Two
+                Tria Kila Kodika Path Two
                 </a>
             </body>    
         </html>        
         `;
-  const inputBaseURL = "https://blog.boot.dev";
+  const inputBaseURL = "https://triakilakodika.gr";
   const actual = getURLSFromHTML(inputHTMLBody, inputBaseURL);
-  const expected = ["https://blog.boot.dev/path1/", "https://blog.boot.dev/path2/"];
+  const expected = ["https://triakilakodika.gr/path1/", "https://triakilakodika.gr/path2/"];
   expect(actual).toEqual(expected);
 });
 
@@ -90,7 +90,7 @@ test("getURLSFromHTML invalid", () => {
               </body>    
           </html>        
           `;
-  const inputBaseURL = "https://blog.boot.dev";
+  const inputBaseURL = "https://triakilakodika.gr";
   const actual = getURLSFromHTML(inputHTMLBody, inputBaseURL);
   const expected = [];
   expect(actual).toEqual(expected);
