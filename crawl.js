@@ -48,23 +48,15 @@ function getURLSFromHTML(htmlBody, baseURL) {
   const urls = [];
   const dom = new JSDOM(htmlBody);
   const linkElements = dom.window.document.querySelectorAll("a");
-  for (const linkElement of linkElements) {
-    if (linkElement.href.startsWith("/")) {
-      //relative URLs
-      try {
-        const urlObj = new URL(linkElement.href, baseURL);
-        urls.push(urlObj.href);
-      } catch (err) {
-        console.log(`Error with relative URL: ${err.message}`);
-      }
-    } else {
-      //absolute URLs
-      try {
-        const urlObj = new URL(linkElement.href);
-        urls.push(urlObj.href);
-      } catch (err) {
-        console.log(`Error with absolute URL: ${err.message}`);
-      }
+  const linkElementsLength = linkElements.length;
+
+  for (let i = 0; i < linkElementsLength; i++) {
+    const linkElement = linkElements[i];
+    try {
+      const urlObj = linkElement.href.startsWith("/") ? new URL(linkElement.href, baseURL) : new URL(linkElement.href);
+      urls.push(urlObj.href);
+    } catch (err) {
+      console.log(`Error with URL: ${err.message}`);
     }
   }
   return urls;
